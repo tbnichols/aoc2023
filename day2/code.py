@@ -1,0 +1,31 @@
+which = input("input 1 for test or 2 for real")
+if which.isdigit() and int(which) == 1:
+	path = 'example.txt'
+else:
+	path = 'input.txt'
+f =open(path, 'r')
+total = 0
+for x in f:
+	x = x.strip()
+	games = (list(x.split(':'))[1]).split(';')
+	gamenum = int(x.split(':')[0].split(' ')[-1])
+	valid = True
+	for game in games:
+		colors = list(map(lambda x: x.strip(), game.split(',')))
+		for color in colors:
+			if 'green' in color and int(color.split(' ')[0]) >13:
+				valid = False
+				break
+			if 'blue' in color and int(color.split(' ')[0]) >14:
+				valid = False
+				break
+			if 'red' in color and int(color.split(' ')[0]) >12:
+				valid = False
+				break
+		if not(valid):
+			break
+	if valid:
+		total += gamenum
+			
+
+print(total)	
