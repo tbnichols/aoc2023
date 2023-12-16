@@ -6,6 +6,20 @@ else:
 	path = 'input.txt'
 f =open(path, 'r')
 grid = []
+contdict = {
+	('|', (0,1)): [(1,0), (-1,0)],
+	('|', (0,-1)): [(1,0), (-1,0)],
+	('-', (1,0)): [(0,-1), (0,1)],
+	('-', (-1,0)): [(0,-1), (0,1)],
+	('\\', (0,1)): [(1,0)],
+	('\\', (1,0)): [(0,1)],
+	('\\', (0,-1)): [(-1,0)],
+	('\\', (-1,0)): [(0,-1)],
+	('/', (-1,0)): [(0,1)],
+	('/', (1,0)): [(0,-1)],
+	('/', (0,-1)): [(1,0)],
+	('/', (0,1)): [(-1, 0)]
+}
 	 
 for i, x in enumerate(f):
 	x = x.strip()
@@ -27,38 +41,11 @@ def lightup (orientation, pos):
 		pos = (pos[0]+orientation[0], pos[1]+orientation[1])
 		if not (0<=pos[0]<len(grid) and 0<=pos[1]<len(grid[0])):
 			return
-		if grid [pos[0]][pos[1]] == '|' and (orientation  == (0,1) or orientation == (0,-1)):
-			lightup((1,0), pos)
-			lightup((-1,0), pos)
-			return
-		if grid [pos[0]][pos[1]] == '/' and (orientation  == (0,1)):
-			lightup((-1,0), pos)
-			return
-		if grid [pos[0]][pos[1]] == '/' and (orientation  == (0,-1)):
-			lightup((1,0), pos)
-			return
-		if grid [pos[0]][pos[1]] == '\\' and (orientation  == (0,1)):
-			lightup((1,0), pos)
-			return
-		if grid [pos[0]][pos[1]] == '\\' and (orientation  == (0,-1)):
-			lightup((-1,0), pos)
-			return
-		if grid [pos[0]][pos[1]] == '-' and (orientation  == (1,0) or orientation == (-1,0)):
-			lightup((0,1), pos)
-			lightup((0,-1), pos)
-			return
-		if grid [pos[0]][pos[1]] == '/' and (orientation  == (1,0)):
-			lightup((0,-1), pos)
-			return
-		if grid [pos[0]][pos[1]] == '/' and (orientation  == (-1,0)):
-			lightup((0,1), pos)
-			return
-		if grid [pos[0]][pos[1]] == '\\' and (orientation  == (1,0)):
-			lightup((0, 1), pos)
-			return
-		if grid [pos[0]][pos[1]] == '\\' and (orientation  == (-1,0)):
-			lightup((0, -1), pos)
-			return
+		if (grid[pos[0]][pos[1]], orientation) not in contdict:
+			continue
+		for nextdir in contdict[(grid[pos[0]][pos[1]], orientation)]:
+			lightup(nextdir, pos)
+		return
 
 maxi = 0
 for i in range(len(grid)):
