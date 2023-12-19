@@ -19,14 +19,10 @@ seentwice = set()
 next = [(1,0), (0,1), (-1,0), (0,-1)]
 while not pq.empty():
 	cur = pq.get()
-	# print(cur)
-	# input()
 	dist = cur[0]
 	path = cur[1]
 	node = path[0]
-	# print(path)
 	if (node[0] == len(grid)-1) and node[1] == (len(grid[node[0]])-1):
-		# print(node)
 		print(dist)
 		break
 	if (node, path[:4]) in seen:
